@@ -14,15 +14,15 @@ import {
 
     render(){
         return(
-            <View style={{backgroundColor:'#843821'}}>
+            <View style={{marginTop:4}}>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={styles.navBar}>
           <View style={styles.navBarText}>
-            <Text style={{margin:5}}>Starters</Text>
-            <Text>Main Course</Text>
-            <Text>Salads</Text>
-            <Text>Starters</Text>
-            <Text>Desserts</Text>
-            <Text>Beverages</Text>
+            <Text style={styles.text}>Starters</Text>
+            <Text style={styles.text}>Main Course</Text>
+            <Text style={styles.text}>Salads</Text>
+            <Text style={styles.text}>Starters</Text>
+            <Text style={styles.text}>Desserts</Text>
+            <Text style={styles.text}>Beverages</Text>
           </View>
 
         </ScrollView>
@@ -42,10 +42,18 @@ import {
       
       },
       navBarText: {
-        paddingHorizontal: 15,
+        paddingHorizontal:10,
         flexDirection:"row",
         alignItems: 'center',
         justifyContent: 'space-around',
+        backgroundColor:"#FFFFFF",
+        
         
       },
+      text:{
+        paddingVertical:9,
+        fontSize:10,
+        fontFamily:"monospace",
+        paddingHorizontal:10
+      }
   })

@@ -9,14 +9,12 @@ import {
   View, Alert,
   Button, ActivityIndicator
 } from 'react-native'
- import NameHeader from '../components/nameheader';
- import AppnavBar from '../components/navbar';
-// import AppBody from '../components/appbody';
- import TabBar from '../components/tabbar';
-//  import addArrayData from '../components/addDataArray';
-// import addArrayData from './addArrayData'
-// let newData=addArrayData;
-// console.log(newData)
+import NameHeader from '../components/nameheader';
+import AppnavBar from '../components/navbar';
+import AppBody from '../components/appbody';
+import TabBar from '../components/tabbar';
+import Offers from '../components/offers'
+
 
 export default class HomeScreen extends React.Component {
 
@@ -28,7 +26,7 @@ export default class HomeScreen extends React.Component {
     }
   }
 
-  
+
 
   componentDidMount() {
     return fetch('https://apis.fruitstone.in/cheese/api/exam001?key=%22ARPKG10236%22')
@@ -36,30 +34,30 @@ export default class HomeScreen extends React.Component {
       .then((gotdata) => {
         this.setState({
           isLoading: false,
-          // rawData:gotdata,
+
           apiData: gotdata.data,
-          //  dishesData:gotdata.data.dishes,
+
         })
       }).catch((error) => console.log('There is an Error Occured' + error))
   }
 
+
   render() {
-   console.log(this.state.apiData)
+    // console.log(this.state.apiData)
     if (this.state.isLoading) {
       return (
-        <View style={{ flex: 1, padding: 20 }}>
+        <View style={styles.isLoading}>
           <ActivityIndicator size='large' color='#60B244' />
         </View>
       )
     }
     return (
       <View style={styles.container}>
-        {/* <NameHeader resName={this.state.apiData} />
+        <NameHeader resName={this.state.apiData} />
         <AppnavBar />
-        {/* <AppBody fullData={this.state.apiData} /> 
-        <TabBar /> */}
-
-        <Text>home screen</Text>
+        <Offers offerNumber={this.state.apiData} />
+        <AppBody fullData={this.state.apiData} />
+        <TabBar />
       </View>
     );
   }
@@ -69,8 +67,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F2F5FC',
     flex: 1,
-
-
   },
+  isLoading: {
+    flex: 1,
+    padding: 20,
+    justifyContent: "center"
+  }
 }
 );

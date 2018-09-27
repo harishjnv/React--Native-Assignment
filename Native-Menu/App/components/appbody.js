@@ -8,110 +8,187 @@ import {
     TouchableOpacity,
     View, Alert,
     Button, ActivityIndicator,
-    SectionList
+    SectionList,
+    TouchableHighlight
 } from 'react-native';
 import _ from 'lodash';
-import addDataArray from '../components/addDataArray'
-//import {StartersCard,MainCourseCard,Offers} from '../components'
-// import Offers from '../components/offers';
-// import StartersCard from '../components/startersCard';
-// import MainCourseCard from '../components/mainCourseCard';
-
-
 
 export default class AppBody extends Component {
 
-
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            modifiedApiData: [],
+        }
+    }
 
     renderItem = (dishtItem) => {
-        return <Text style={styles.text}>{dishtItem.item.data}</Text>
+
+        return (
+
+            <View style={styles.itemDetails}>
+                <View style={{ flexDirection: "row", alignItems: "center", paddingLeft: 16 }}>
+                    {dishtItem.item.isVeg ?
+                        (<Image source={require('../assets/Veg.png')} style={styles.isvegIcon} />)
+                        : (<Image source={require('../assets/NonVeg.png')} style={styles.isNonvegIcon} />)}
+                    <Text style={styles.itemName}>{dishtItem.item.data}</Text>
+                </View>
+
+
+                <View style={styles.pbContainer}>
+                    <Text style={styles.price}>$ {dishtItem.item.price}</Text>
+
+
+                    <TouchableHighlight
+                        style={styles.button}
+                        underlayColor="yellow"
+                        onPress={this.onPressButton}
+                    >
+                        <Text style={styles.priceAdd}>ADD</Text>
+                    </TouchableHighlight>
+                    {/* <Button title="add" onPress={this.onPressButton} color="#E5E5E5" /> */}
+                </View>
+
+            </View>
+
+        )
     }
     renderSectionHeader = (sectionItem) => {
-        //console.log(this.state.addDataArray.offersAvailable)
+        let addArrayData = this.props.fullData;
+        for (let i = 0; i < addArrayData.sections.length; i++) {
 
-        //   console.log('9999999999999999999999999999999')
-        console.log(addDataArray.offersAvailable)
-        console.log(this.state.addDataArray.sections.length)
-        for (let i = 0; i < this.state.addDataArray.sections.length; i++) {
-            if (sectionItem.section.sectionId == addDataArray.sections[i].id) {
-                return <Text style={styles.header}>{addDataArray.sections[i].name}</Text>
+            if (sectionItem.section.sectionId == addArrayData.sections[i].id) {
+                return (
+                    <View style={styles.secContainer}>
+                        <Text style={styles.sectionTitle}>{addArrayData.sections[i].name}</Text>
+                    </View>
+
+                )
             }
         }
     }
 
+    onPressButton = () => {
+        this.setState(
+            { counterValue: 1 }
+        )
+    }
+
+
     render() {
-        let value = 'vfhtygfj';
-        console.log('************')
-        let forArrayData = this.props.fullData;
-        //console.log(forArrayData);
-        let newData = forArrayData.dishes;
+
+        //console.log('************')
+        let addArrayData = this.props.fullData;
+        let count = addArrayData.dishes.length;
+
+        let newData = addArrayData.dishes;
+        // given api data does not have a "data array" which is necessary for sectionList
+        // here I am pushing a data array into dishes
+        for (let i = 0; i < count; i++) {
+            newData[i].data = [];
+            newData[i].data.push(newData[i].name);
+        }
+
         newData = _.groupBy(newData, d => d.sectionId)
-        //console.log('***********************************')
-       // console.log(newData);
+
         newData = _.reduce(newData, (acc, next, index) => {
             acc.push({
                 sectionId: index,
                 data: next
             })
-            newData= acc;
+            return acc
         }, [])
-
-
+        //console.log(newData);
 
         return (
-            <ScrollView contentContainerStyle={styles.body}>
-                {/* <Offers nameCheck={this.state.apiData.offersAvailable} />
-                <Offers offerNumber={value} />
-                <StartersCard dishes={this.props.fullData.data.dishes} />
-                <MainCourseCard />
-                */}
-                <Text>{value}</Text>
+            <View style={styles.container}>
+
                 <SectionList
-                    renderItem={(dishItem) => {
-                        <Text style={styles.text}>{dishItem.item.data}</Text>
-                    }
-                }
-                    renderSectionHeader={(sectionItem)=>{
-                        <Text>{sectionItem.section.sectionId}</Text>
-                    }}
+                    renderItem={this.renderItem}
+                    renderSectionHeader={this.renderSectionHeader}
                     sections={newData}
                     keyExtractor={(item) => item.name}
                 />
-                {/* renderItem={({ item, index, section }) => <Text key={index}>{item}</Text>}
-                sections={[
-                    { title: 'Title1', data: ['item1', 'item2'], renderItem: overrideRenderItem },
-                    { title: 'Title2', data: ['item3', 'item4'] },
-                    { title: 'Title3', data: ['item5', 'item6'] },
-                ]}
-                renderItem = (dishtItem) => { */}
-    </ScrollView>  
-    //return <Text style={styles.text}>{dishtItem.item.data}</Text>
-    // }renderSectionHeader = (sectionItem) => {
-    //     //console.log(this.state.addDataArray.offersAvailable)
 
-    //     //   console.log('9999999999999999999999999999999')
-    //     console.log(addDataArray.offersAvailable)
-    //     console.log(this.state.addDataArray.sections.length)
-    //     for (let i = 0; i < this.state.addDataArray.sections.length; i++) {
-    //         if (sectionItem.section.sectionId == addDataArray.sections[i].id) {
-    //             return <Text style={styles.header}>{addDataArray.sections[i].name}</Text>
-    //         }
-    //     }
-    // }
-     //       </ScrollView>
-            )
-        }
-    
+            </View>
+        );
     }
+}
+
 const styles = StyleSheet.create({
-                    body: {
-                    flex: 1,
-            },
-    text: {
-                    fontSize: 15,
-            },
-    header: {
-                    fontSize: 25
-            }
-})
+    container: {
+        flex: 1,
+        backgroundColor: '#F2F5FC',
+      
+    },
+    secContainer: {
+        paddingVertical: 10,
+        justifyContent: "flex-start",
+        backgroundColor: "#FFFFFF",
+        marginTop: 10
+    },
+    sectionTitle: {
+        fontSize: 20,
+        fontFamily: "monospace",
+        fontWeight: "bold",
+        paddingLeft: 16,
+        paddingVertical: 5,
+
+    },
+    itemDetails: {
+        paddingVertical: 10,
+        backgroundColor: "#FFFFFF"
+    },
+    itemName: {
+        fontSize: 12,
+        fontFamily: "monospace",
+        paddingLeft: 4
+    },
+    price: {
+        fontSize: 12,
+        fontFamily: "monospace",
+        paddingVertical: 6,
+        paddingLeft: 16
+    },
+    priceAdd: {
+        fontSize: 12,
+        fontFamily: "monospace",
+        paddingVertical: 6,
+        //marginLeft:16
+    },
+    pbContainer: {
+        justifyContent: "space-between",
+        flexDirection: "row"
+        // paddingVertical:5
+    },
+    button: {
+        alignItems: 'center',
+        backgroundColor: 'white',
+        justifyContent: "center",
+        width: 64,
+        height: 24,
+        padding: 10,
+        marginRight: 16,
+        //paddingLeft:16,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: "#60B244",
+
+    },
+    isvegIcon: {
+        height: 8,
+        width: 8,
+        padding: 2,
+        borderWidth: 1,
+        borderColor: "#60B244",
+
+    },
+    isNonvegIcon: {
+        height: 8,
+        width: 8,
+        padding: 2,
+        borderWidth: 1,
+        borderColor: "#843821",
+
+    }
+});

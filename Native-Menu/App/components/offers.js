@@ -15,11 +15,11 @@ export default class Offers extends Component {
         return (
             <View style={styles.offerBar}>
                 <View style={styles.offers}>
-                    <Image source={require('../assets/images/Offers.png')} style={{padding:5}} style={styles.Offerimg} />
+                    <Image source={require('../assets/Offers.png')} style={{ padding: 5 }} style={styles.Offerimg} />
                 </View>
                 <View>
                     <Text style={styles.OfferText}>
-                        {this.props.offerNumber} offers are available
+                        {this.props.offerNumber.offersAvailable} OFFERS ARE AVAILABLE
                     </Text>
                 </View>
             </View>
@@ -28,44 +28,42 @@ export default class Offers extends Component {
 }
 
 const styles = StyleSheet.create({
-    // offerBar:{
-    //     flex:2,
-    //     justifyContent:'center'
-    // },
-    Offerimg: {
-        width: 24,
-        height: 24,
-    
-        marginLeft: 32,
-      paddingLeft:10,
-      
-      backgroundColor:'white',
-         borderWidth:1,
-        borderRadius:4,
-      borderColor:'blue',
-      
-
-    },
-    offers:{
-      height:48,
-    //  backgroundColor:'yellow',
-      alignItems:'center',
-      justifyContent:'center',
-     
-    },
-    OfferText: {
-        color: 'red',
-        paddingLeft: 10,
-        alignItems: 'center'
-    },
     offerBar: {
         flexDirection: 'row',
         height: 48,
         //paddingVertical: 10,
         alignItems: 'center',
         //justifyContent:'space-around',
-        backgroundColor: '#F2F5FC',
-        marginTop: 10
-    }
+        backgroundColor: '#FFFFFF',
+        marginTop: 10,
+        overflow: "visible"
+    },
+
+    Offerimg: {
+        width: 24,
+        height: 24,
+
+    },
+    offers: {
+        height: 48,
+        width: 48,
+        borderRadius: 24,
+        borderWidth: 1,
+        borderColor: "#F44336",
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: "visible",
+        marginLeft: 16
+
+    },
+    OfferText: {
+        color: '#60B244',
+        paddingLeft: 15,
+        alignItems: 'center',
+        fontFamily: "monospace",
+        fontSize: 12,
+        fontWeight: "500"
+    },
 
 })

@@ -14,7 +14,7 @@ export default class TabBar extends Component {
     render() {
         return (
             <View style={styles.tabBar}>
-                <Text>Total Summery</Text>
+                <Text style={styles.tabBarText}>3 Items | $12.99 </Text>
             </View>
         )
     }
@@ -27,4 +27,9 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: 'center'
     },
+    tabBarText:{
+        color:'white',
+        fontFamily:"monospace",
+        fontSize:12
+    }
 })

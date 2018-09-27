@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { counterIncrement } from './actions';
 import HomeScreen from './components/HomeScreen';
-import addArrayData from './components/addArrayData'
 
 class AppContainer extends React.Component {
 
@@ -20,7 +19,7 @@ class AppContainer extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F2F5FC',
   },
 });
 
