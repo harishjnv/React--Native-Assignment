@@ -16,22 +16,7 @@ import addDataArray from '../components/addDataArray'
 // import Offers from '../components/offers';
 // import StartersCard from '../components/startersCard';
 // import MainCourseCard from '../components/mainCourseCard';
-// console.log('******************')
-// console.log(this.props.fullData.data.offersAvailable)
 
-// console.log('@@@@@@@@@@@@@@@@@@@')
-// console.log(addDataArray)
-// let newData = addDataArray.dishes;
-// newData = _.groupBy(newData, d => d.sectionId)
-// //console.log('***********************************')
-// //console.log(newData);
-// newData = _.reduce(newData, (acc, next, index) => {
-//     acc.push({
-//         sectionId: index,
-//         data: next
-//     })
-//     return acc
-// }, [])
 
 
 export default class AppBody extends Component {
@@ -39,21 +24,21 @@ export default class AppBody extends Component {
 
 
 
-    // renderItem = (dishtItem) => {
-    //     return <Text style={styles.text}>{dishtItem.item.data}</Text>
-    // }
-    // renderSectionHeader = (sectionItem) => {
-    //     //console.log(this.state.addDataArray.offersAvailable)
+    renderItem = (dishtItem) => {
+        return <Text style={styles.text}>{dishtItem.item.data}</Text>
+    }
+    renderSectionHeader = (sectionItem) => {
+        //console.log(this.state.addDataArray.offersAvailable)
 
-    //     //   console.log('9999999999999999999999999999999')
-    //     console.log(addDataArray.offersAvailable)
-    //     console.log(this.state.addDataArray.sections.length)
-    //     for (let i = 0; i < this.state.addDataArray.sections.length; i++) {
-    //         if (sectionItem.section.sectionId == addDataArray.sections[i].id) {
-    //             return <Text style={styles.header}>{addDataArray.sections[i].name}</Text>
-    //         }
-    //     }
-    // }
+        //   console.log('9999999999999999999999999999999')
+        console.log(addDataArray.offersAvailable)
+        console.log(this.state.addDataArray.sections.length)
+        for (let i = 0; i < this.state.addDataArray.sections.length; i++) {
+            if (sectionItem.section.sectionId == addDataArray.sections[i].id) {
+                return <Text style={styles.header}>{addDataArray.sections[i].name}</Text>
+            }
+        }
+    }
 
     render() {
         let value = 'vfhtygfj';

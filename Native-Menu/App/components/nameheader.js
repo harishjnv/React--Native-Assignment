@@ -9,10 +9,6 @@ import {
     View, Alert,
     Button
 } from 'react-native';
-import { WebBrowser } from 'expo';
-
-import { MonoText } from '../components/StyledText';
-import { bold } from 'ansi-colors';
 
 export default class NameHeader extends React.Component {
     render() {
