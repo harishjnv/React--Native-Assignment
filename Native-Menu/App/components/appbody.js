@@ -18,15 +18,35 @@ export default class AppBody extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            modifiedApiData: [],
+         countVar:0,
+         addNotClicked:true,
+         quantityArray:[]
         }
     }
-
+    onPressButton = (recieve) => {
+       console.log(recieve)
+       this.state.quantityArray.push(recieve);
+      console.log(this.state.quantityArray)
+        this.setState(
+            { recieve: 1 }
+        )
+    }
+    onPressAddClicked=(recieve)=>{
+        console.log(recieve)
+      
+        this.setState({
+            addNotClicked:false,
+            recieve:recieve++
+        })
+    }
 
     renderItem = (dishtItem) => {
-        // console.log('############################');
+         console.log('############################');
         // console.log(dishtItem.item.id)
         let value=dishtItem.item.id;
+        let countArray=this.state.quantityArray;
+      let itemQuantity = countArray.filter(x=>x==value).length
+
         return (
            
             <View style={styles.itemDetails}>
@@ -41,7 +61,7 @@ export default class AppBody extends Component {
                 <View style={styles.pbContainer}>
                     <Text style={styles.price}>$ {dishtItem.item.price}</Text>
 
-
+                  
                     <TouchableHighlight
                         style={styles.button}
                         underlayColor="yellow"
@@ -49,7 +69,7 @@ export default class AppBody extends Component {
                         onPress={()=>this.onPressButton(value)}
 
                     >
-                        <Text style={styles.priceAdd}>ADD</Text>
+                        <Text style={styles.priceAdd}>{itemQuantity}</Text>
                     </TouchableHighlight>
                     {/* <Button title="add" onPress={this.onPressButton} color="#E5E5E5" /> */}
                 </View>
@@ -74,17 +94,13 @@ export default class AppBody extends Component {
     }
 
     
-    onPressButton = (recieve) => {
-        console.log(recieve)
-        this.setState(
-            { counter: 1 }
-        )
-    }
+    
 
 
     render() {
 
-        //console.log('************')
+        console.log('************')
+        console.log(this.state)
         let addArrayData = this.props.fullData;
         let count = addArrayData.dishes.length;
 
