@@ -12,7 +12,6 @@ import {
 import NameHeader from './nameheader';
 import AppnavBar from './navbar';
 import AppBody from './appbody';
-import TabBar from './tabbar';
 import Offers from './offers'
 
 
@@ -43,7 +42,6 @@ export default class HomeScreen extends React.Component {
 
 
   render() {
-    // console.log(this.state.apiData)
     if (this.state.isLoading) {
       return (
         <View style={styles.isLoading}>
@@ -57,7 +55,6 @@ export default class HomeScreen extends React.Component {
         <AppnavBar />
         <Offers offerNumber={this.state.apiData} />
         <AppBody fullData={this.state.apiData} />
-        <TabBar />
       </View>
     );
   }

@@ -12,72 +12,122 @@ import {
     TouchableHighlight
 } from 'react-native';
 import _ from 'lodash';
+import TabBar from './tabbar';
 
 export default class AppBody extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-         countVar:0,
-         addNotClicked:true,
-         quantityArray:[]
+            totalPrice: 0,
+            addNotClicked: true,
+            quantityArray: [],
+            apiData: this.props.fullData
         }
     }
     onPressButton = (recieve) => {
-       console.log(recieve)
-       this.state.quantityArray.push(recieve);
-      console.log(this.state.quantityArray)
-        this.setState(
-            { recieve: 1 }
-        )
-    }
-    onPressAddClicked=(recieve)=>{
-        console.log(recieve)
-      
-        this.setState({
-            addNotClicked:false,
-            recieve:recieve++
+        this.state.quantityArray.push(recieve);
+
+        var apiData = this.state.apiData;
+        var quantityArray = this.state.quantityArray
+
+        let totalPrice = 0;
+
+        quantityArray.forEach(function (element) {
+            for (let i = 0; i < quantityArray.length; i++) {
+                if (element == apiData.dishes[i].id) {
+                    totalPrice += apiData.dishes[0].price
+                }
+            }
         })
+        this.setState(
+            {
+                addNotClicked: false,
+                totalPrice: totalPrice
+            })
+
     }
+
+
+
+    reduceQuantity = (recieve) => {
+        let quantityArray = this.state.quantityArray;
+        let idx = recieve;
+        if (idx != -1) quantityArray.splice(idx, 1);
+
+        let totalPrice = 0;
+        let apiData = this.state.apiData;
+        quantityArray.forEach(function (element) {
+            for (let i = 0; i < quantityArray.length; i++) {
+                if (element == apiData.dishes[i].id) {
+                    totalPrice += apiData.dishes[0].price
+                }
+            }
+        })
+
+        this.setState({ totalPrice })
+
+    }
+
+
+
 
     renderItem = (dishtItem) => {
-         console.log('############################');
-        // console.log(dishtItem.item.id)
-        let value=dishtItem.item.id;
-        let countArray=this.state.quantityArray;
-      let itemQuantity = countArray.filter(x=>x==value).length
+
+        let value = dishtItem.item.id;
+        let countArray = this.state.quantityArray;
+        let itemQuantity = countArray.filter(x => x == value).length;
 
         return (
-           
+
             <View style={styles.itemDetails}>
                 <View style={{ flexDirection: "row", alignItems: "center", paddingLeft: 16 }}>
                     {dishtItem.item.isVeg ?
-                        (<Image source={require('/home/shiva/Desktop/FruitStone/Native-Menu/assets/Veg.png')} style={styles.isvegIcon} />)
-                        : (<Image source={require('/home/shiva/Desktop/FruitStone/Native-Menu/assets/NonVeg.png')} style={styles.isNonvegIcon} />)}
+                        (<Image source={require('../assets/Veg.png')} style={styles.isvegIcon} />)
+                        : (<Image source={require('../assets/NonVeg.png')} style={styles.isNonvegIcon} />)}
                     <Text style={styles.itemName}>{dishtItem.item.data}</Text>
                 </View>
 
 
+
                 <View style={styles.pbContainer}>
                     <Text style={styles.price}>$ {dishtItem.item.price}</Text>
+                    {itemQuantity == 0 ?
+                        (
+                            <TouchableHighlight
+                                style={styles.button}
+                                underlayColor="yellow"
+                                onPress={() => this.onPressButton(value)} >
+                                <Text style={styles.priceAdd}>ADD</Text>
+                            </TouchableHighlight>)
 
-                  
-                    <TouchableHighlight
-                        style={styles.button}
-                        underlayColor="yellow"
-                       // value={this.dishtItem.item.id}
-                        onPress={()=>this.onPressButton(value)}
 
-                    >
-                        <Text style={styles.priceAdd}>{itemQuantity}</Text>
-                    </TouchableHighlight>
-                    {/* <Button title="add" onPress={this.onPressButton} color="#E5E5E5" /> */}
+                        : (
+                            <View style={styles.buttonAdd}>
+                                <TouchableHighlight
+                                    underlayColor="yellow"
+                                    onPress={() => this.reduceQuantity(value)}>
+                                    <Text style={{ borderRightWidth: 1, borderRightColor: "#60B244", paddingRight: 8, fontFamily: "monospace" }} >-</Text>
+                                </TouchableHighlight>
+                                <Text style={{ alignItems: "center" }}>{itemQuantity}</Text>
+
+                                <TouchableHighlight
+                                    underlayColor="yellow"
+                                    onPress={() => this.onPressButton(value)}>
+                                    <Text style={{ borderLeftWidth: 1, borderLeftColor: "#60B244", paddingLeft: 8, fontFamily: "monospace" }} >+</Text>
+
+                                </TouchableHighlight>
+
+                            </View>
+                        )
+                    }
+
                 </View>
-
             </View>
 
         )
     }
+
     renderSectionHeader = (sectionItem) => {
         let addArrayData = this.props.fullData;
         for (let i = 0; i < addArrayData.sections.length; i++) {
@@ -93,14 +143,15 @@ export default class AppBody extends Component {
         }
     }
 
-    
-    
+
+
+
+
+
 
 
     render() {
 
-        console.log('************')
-        console.log(this.state)
         let addArrayData = this.props.fullData;
         let count = addArrayData.dishes.length;
 
@@ -121,7 +172,6 @@ export default class AppBody extends Component {
             })
             return acc
         }, [])
-        //console.log(newData);
 
         return (
             <View style={styles.container}>
@@ -132,17 +182,20 @@ export default class AppBody extends Component {
                     sections={newData}
                     keyExtractor={(item) => item.name}
                 />
+                <TabBar itemsData={this.state.quantityArray.length} totalPrice={this.state.totalPrice} />
 
             </View>
         );
     }
+
 }
+
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F2F5FC',
-      
+
     },
     secContainer: {
         paddingVertical: 10,
@@ -177,12 +230,12 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontFamily: "monospace",
         paddingVertical: 6,
-        //marginLeft:16
+
     },
     pbContainer: {
         justifyContent: "space-between",
         flexDirection: "row"
-        // paddingVertical:5
+
     },
     button: {
         alignItems: 'center',
@@ -192,11 +245,23 @@ const styles = StyleSheet.create({
         height: 24,
         padding: 10,
         marginRight: 16,
-        //paddingLeft:16,
         borderRadius: 12,
         borderWidth: 1,
         borderColor: "#60B244",
 
+    },
+    buttonAdd: {
+
+        flexDirection: 'row',
+
+        justifyContent: "space-around",
+        width: 70,
+        height: 24,
+
+        marginRight: 16,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: "#60B244",
     },
     isvegIcon: {
         height: 8,

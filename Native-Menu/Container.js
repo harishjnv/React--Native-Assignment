@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { counterIncrement } from './actions';
+import { counterIncrement } from './actions/counerAction';
 import HomeScreen from './components/HomeScreen';
 
 class AppContainer extends React.Component {
