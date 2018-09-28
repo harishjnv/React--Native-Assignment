@@ -15,7 +15,7 @@ export default class Offers extends Component {
         return (
             <View style={styles.offerBar}>
                 <View style={styles.offers}>
-                    <Image source={require('../assets/Offers.png')} style={{ padding: 5 }} style={styles.Offerimg} />
+                    <Image source={require('/home/shiva/Desktop/FruitStone/Native-Menu/assets/Offers.png')} style={{ padding: 5 }} style={styles.Offerimg} />
                 </View>
                 <View>
                     <Text style={styles.OfferText}>

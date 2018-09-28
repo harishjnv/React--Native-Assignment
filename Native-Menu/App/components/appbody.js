@@ -22,15 +22,18 @@ export default class AppBody extends Component {
         }
     }
 
+
     renderItem = (dishtItem) => {
-
+        // console.log('############################');
+        // console.log(dishtItem.item.id)
+        let value=dishtItem.item.id;
         return (
-
+           
             <View style={styles.itemDetails}>
                 <View style={{ flexDirection: "row", alignItems: "center", paddingLeft: 16 }}>
                     {dishtItem.item.isVeg ?
-                        (<Image source={require('../assets/Veg.png')} style={styles.isvegIcon} />)
-                        : (<Image source={require('../assets/NonVeg.png')} style={styles.isNonvegIcon} />)}
+                        (<Image source={require('/home/shiva/Desktop/FruitStone/Native-Menu/assets/Veg.png')} style={styles.isvegIcon} />)
+                        : (<Image source={require('/home/shiva/Desktop/FruitStone/Native-Menu/assets/NonVeg.png')} style={styles.isNonvegIcon} />)}
                     <Text style={styles.itemName}>{dishtItem.item.data}</Text>
                 </View>
 
@@ -42,7 +45,9 @@ export default class AppBody extends Component {
                     <TouchableHighlight
                         style={styles.button}
                         underlayColor="yellow"
-                        onPress={this.onPressButton}
+                       // value={this.dishtItem.item.id}
+                        onPress={()=>this.onPressButton(value)}
+
                     >
                         <Text style={styles.priceAdd}>ADD</Text>
                     </TouchableHighlight>
@@ -68,9 +73,11 @@ export default class AppBody extends Component {
         }
     }
 
-    onPressButton = () => {
+    
+    onPressButton = (recieve) => {
+        console.log(recieve)
         this.setState(
-            { counterValue: 1 }
+            { counter: 1 }
         )
     }
 

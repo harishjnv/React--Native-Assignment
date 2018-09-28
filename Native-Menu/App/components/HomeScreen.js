@@ -9,11 +9,11 @@ import {
   View, Alert,
   Button, ActivityIndicator
 } from 'react-native'
-import NameHeader from '../components/nameheader';
-import AppnavBar from '../components/navbar';
-import AppBody from '../components/appbody';
-import TabBar from '../components/tabbar';
-import Offers from '../components/offers'
+import NameHeader from './nameheader';
+import AppnavBar from './navbar';
+import AppBody from './appbody';
+import TabBar from './tabbar';
+import Offers from './offers'
 
 
 export default class HomeScreen extends React.Component {
